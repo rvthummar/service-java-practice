@@ -26,4 +26,10 @@ public class PracticeController {
         log.info("Successfully ping");
         return new ResponseEntity<CommonProxy>(new CommonProxy(practiceService.getData(),"Successfully ping", Boolean.TRUE, HttpStatus.OK.value()), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/getDataList")
+    public ResponseEntity<CommonProxy> getDataList() {
+        log.info("Successfully getDataList");
+        return new ResponseEntity<CommonProxy>(new CommonProxy(practiceService.getDataList(),"Successfully getDataList", Boolean.TRUE, HttpStatus.OK.value()), HttpStatus.OK);
+    }
 }
