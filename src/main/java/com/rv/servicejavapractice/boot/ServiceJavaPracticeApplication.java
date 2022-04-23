@@ -1,4 +1,4 @@
-package com.rv.servicejavapractice;
+package com.rv.servicejavapractice.boot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
