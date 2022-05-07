@@ -1,7 +1,7 @@
 package com.rv.servicejavapractice.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class PracticeServiceImpl implements PracticeService {
+
+	private static final String PARSIAL_DISBURSED = "Parsial Disbursed";
+	private static final String SANCTION = "Sanction";
+	private static final String DISBURSED = "Disbursed";
 
 	@Data
 	@NoArgsConstructor
@@ -53,38 +57,48 @@ public class PracticeServiceImpl implements PracticeService {
 			if (!Utils.isObjectNullOrEmpty(stringObjectMap)) {
 				return stringObjectMap;
 			}
-			return null;
+			return Collections.emptyMap();
 		} catch (Exception e) {
 			log.error("error is getting get while get getData() Method ", e);
 		}
-		return null;
+		return Collections.emptyMap();
 	}
 
 	@Override
 	public List<CommonResponse> getDataList() {
-		List<CommonResponse> commonResponseList = new ArrayList<>();
-		commonResponseList.add(new CommonResponse("Parsial Disbursed", 8, new Date(), 700000.00));
-		commonResponseList.add(new CommonResponse("Parsial Disbursed", 8, new Date(), 400000.0));
-		commonResponseList.add(new CommonResponse("Parsial Disbursed", 8, new Date(), 200000.0));
-		commonResponseList.add(new CommonResponse("Sanction", 2, new Date(), 700000.00));
-		commonResponseList.add(new CommonResponse("Completed", 1, new Date(), 700000.00));
+		List<CommonResponse> commonResponseList = CommonResponse.generateCommonResponceList();
 
 		if (!Utils.isListNullOrEmpty(commonResponseList)) {
 			CommonResponse response = commonResponseList.stream().findFirst().orElse(null);
-			if (!Utils.isObjectNullOrEmpty(response) && response.getStatus().equalsIgnoreCase("Parsial Disbursed")) {
+			if (!Utils.isObjectNullOrEmpty(response) && !Utils.isObjectNullOrEmpty(response.getStatus())
+					&& response.getStatus().equalsIgnoreCase(PARSIAL_DISBURSED)) {
 				CommonResponse getSanctionData = commonResponseList.stream()
-						.filter(x -> x.getStatus().equalsIgnoreCase("Sanction")).findFirst().orElse(null);
-				if (Double.compare(response.getAmount(), getSanctionData.getAmount()) == 0) {
-					commonResponseList.get(0).setStatus("Disbursed");
+						.filter(x -> x.getStatus().equalsIgnoreCase(SANCTION)).findFirst().orElse(null);
+				if (!Utils.isObjectNullOrEmpty(getSanctionData)
+						&& !Utils.isObjectNullOrEmpty(getSanctionData.getAmount())
+						&& Double.compare(response.getAmount(), getSanctionData.getAmount()) == 0) {
+					commonResponseList.get(0).setStatus(DISBURSED);
 				}
 			}
 		}
 		return commonResponseList;
 	}
 
-	List<FruitShop> FruitShop() {
-		List<FruitShop> shoplists = EnumSet.allOf(Fruit.class).stream().map(f -> new FruitShop(f.name()))
-				.collect(Collectors.toList());
-		return shoplists;
+	List<FruitShop> fruitShop() {
+		return EnumSet.allOf(Fruit.class).stream().map(f -> new FruitShop(f.name())).toList();
 	}
+
+//	public static void main(String[] args) {
+//		log.info("{}", search(new ArrayList<>(List.of("Ravi", "Jenish", "Abc", "abf"))));
+//		log.info("{}", getString(new ArrayList<>(List.of(0, 22, 5))));
+//	}
+
+	public static List<String> search(List<String> list) {
+		return list.stream().filter(x -> x.startsWith("a") && x.length() == 3).collect(Collectors.toList());
+	}
+
+	public static String getString(List<Integer> list) {
+		return list.stream().map(x -> (x % 2 == 0 ? "e" : "o") + x).collect(Collectors.joining(","));
+	}
+
 }

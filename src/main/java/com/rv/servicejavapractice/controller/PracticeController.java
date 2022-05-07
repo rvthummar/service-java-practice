@@ -17,19 +17,19 @@ public class PracticeController {
 
     @GetMapping(path = "/ping")
     public String ping() {
-        log.info("Successfully ping");
-        return "Successfully ping";
+        log.info("Successfully ping in Controller");
+        return "Successfully Connected";
     }
 
     @GetMapping(path = "/ping1")
     public ResponseEntity<CommonProxy> ping1() {
         log.info("Successfully ping");
-        return new ResponseEntity<CommonProxy>(new CommonProxy(practiceService.getData(),"Successfully ping", Boolean.TRUE, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonProxy(practiceService.getData(),"Successfully ping", Boolean.TRUE, HttpStatus.OK.value()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/getDataList")
     public ResponseEntity<CommonProxy> getDataList() {
         log.info("Successfully getDataList");
-        return new ResponseEntity<CommonProxy>(new CommonProxy(practiceService.getDataList(),"Successfully getDataList", Boolean.TRUE, HttpStatus.OK.value()), HttpStatus.OK);
+        return new ResponseEntity<>(new CommonProxy(practiceService.getDataList(),"Successfully getDataList", Boolean.TRUE, HttpStatus.OK.value()), HttpStatus.OK);
     }
 }

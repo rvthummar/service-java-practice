@@ -17,7 +17,7 @@ public class Person {
         MALE, FEMALE
     }
 
-    private String Name;
+    private String name;
     private int age;
     private Gender gender;
 
@@ -25,7 +25,7 @@ public class Person {
         return this.toString();
     }
 
-    List<Person> generatePersonList() {
+    public static List<Person> generatePersonList() {
         List<Person> personList = new ArrayList<>();
         personList.add(new Person("Ravi", 23, Gender.MALE));
         personList.add(new Person("Jenish", 22, Gender.MALE));

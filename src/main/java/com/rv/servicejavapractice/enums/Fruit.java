@@ -8,8 +8,5 @@ package com.rv.servicejavapractice.enums;
  *
  */
 public enum Fruit {
-	Apple, 
-	Mango, 
-	Banana, 
-	kiwi
+	APPLE, MANGO, BANNA, KIWI
 }
